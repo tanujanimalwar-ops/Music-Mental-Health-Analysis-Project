@@ -78,17 +78,12 @@ def add_bg(image_url):
 
 
 # Your Music Background Image URL
-
 st.markdown(
-
-    add_bg(
-        "https://media.istockphoto.com/id/150934637/vector/music-background.jpg?s=170667a&w=0&k=20&c=UfY3yZ4D-dJAH1d27UltR7-HHHT4Ta35feTYlGm9hIM="
-    ),
-
+    add_video_bg(
+https://www.bing.com/videos/riverview/relatedvideo?q=music+images+png&&mid=D1B2E7D16B6A36CBCF1AD1B2E7D16B6A36CBCF1A&churl=https%3a%2f%2fwww.youtube.com%2fchannel%2fUCsKSB0ApOWdeX2WkwF24MyA&FORM=VCGVRP    ),
+    
     unsafe_allow_html=True
-
 )
-
 
 
 # -----------------------------
