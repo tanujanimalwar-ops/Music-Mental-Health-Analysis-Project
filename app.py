@@ -2,10 +2,11 @@ import streamlit as st
 import pandas as pd
 import pickle
 import base64
-import requests
 import numpy
 import sys
 
+
+# numpy pickle compatibility fix
 sys.modules['numpy._core.numeric'] = numpy.core.numeric
 
 
@@ -16,49 +17,51 @@ st.set_page_config(
 )
 
 
+
 # -----------------------------
 # Background Image
 # -----------------------------
 
-def add_bg(image_url):
+def add_bg(image_path):
 
     try:
 
-        response = requests.get(
-            image_url,
-            timeout=10
-        )
+        with open(image_path, "rb") as img:
 
-        image_bytes = response.content
-
-        encoded = base64.b64encode(
-            image_bytes
-        ).decode()
+            encoded = base64.b64encode(
+                img.read()
+            ).decode()
 
 
         return f"""
         <style>
 
         .stApp {{
+
             background-image:
             url("data:image/png;base64,{encoded}");
 
             background-size:cover;
             background-position:center;
             background-attachment:fixed;
+
         }}
 
 
         .block-container {{
+
             background-color:
             rgba(255,255,255,0.85);
 
             padding:2rem;
+
             border-radius:20px;
+
         }}
 
         </style>
         """
+
 
     except Exception:
 
@@ -67,9 +70,7 @@ def add_bg(image_url):
 
 
 st.markdown(
-    add_bg(
-        "https://static.vecteezy.com/system/resources/previews/024/029/748/original/music-band-clipart-transparent-background-free-png.png"
-    ),
+    add_bg("image/music.png"),
     unsafe_allow_html=True
 )
 
@@ -84,35 +85,46 @@ st.markdown(
 <style>
 
 h1,h2,h3,h4,h5,h6,p,label,span,div{
-    color:black !important;
+
+color:black !important;
+
 }
 
 
 [data-testid="stSidebar"]{
-    background:black !important;
+
+background:black !important;
+
 }
 
 
 [data-testid="stSidebar"] *{
-    color:white !important;
+
+color:white !important;
+
 }
 
 
 .stButton button{
 
-    background:white !important;
-    color:black !important;
-    border:2px solid black;
-    border-radius:12px;
-    font-weight:bold;
+background:white !important;
+
+color:black !important;
+
+border:2px solid black;
+
+border-radius:12px;
+
+font-weight:bold;
 
 }
 
 
 .stTextArea textarea{
 
-    background:white !important;
-    color:black !important;
+background:white !important;
+
+color:black !important;
 
 }
 
@@ -133,15 +145,26 @@ def load_model():
     try:
 
         df = pickle.load(
-            open("music_data.pkl","rb")
+            open(
+                "music_data.pkl",
+                "rb"
+            )
         )
+
 
         tfidf = pickle.load(
-            open("tfidf.pkl","rb")
+            open(
+                "tfidf.pkl",
+                "rb"
+            )
         )
 
+
         model = pickle.load(
-            open("nlp_model.pkl","rb")
+            open(
+                "nlp_model.pkl",
+                "rb"
+            )
         )
 
 
@@ -158,7 +181,7 @@ def load_model():
 
 
 
-df, tfidf, model = load_model()
+df,tfidf,model = load_model()
 
 
 
@@ -173,20 +196,42 @@ st.sidebar.title(
 
 st.sidebar.markdown(
 """
-## Project
+## 🎵 Project
 
 Music Impact on Mental Health
 
 
-## Techniques Used
+## 🛠 Technologies Used
 
-✔ Data Processing
 
-✔ NLP Cleaning
+✔ Python
+
+✔ Streamlit
+
+✔ Pandas
+
+✔ NumPy
+
+✔ NLP
 
 ✔ TF-IDF
 
+✔ Scikit-Learn
+
 ✔ Machine Learning
+
+✔ Pickle Model
+
+
+## Features
+
+✔ Mental Health Prediction
+
+✔ Song Recommendation
+
+✔ Dataset Preview
+
+✔ Interactive UI
 
 """
 )
@@ -210,20 +255,24 @@ st.write(
 st.divider()
 
 
+
 user_text = st.text_area(
     "Enter your feeling about music",
-    placeholder="Example: Music helps me relax and reduce stress"
+    placeholder=
+    "Example: Music helps me relax and reduce stress"
 )
 
 
 
 # -----------------------------
-# Analyze Button
+# Prediction
 # -----------------------------
 
 if st.button("✨ Analyze"):
 
-    if user_text.strip() == "":
+
+    if user_text.strip()=="":
+
 
         st.warning(
             "Please enter text"
@@ -231,6 +280,7 @@ if st.button("✨ Analyze"):
 
 
     else:
+
 
         vector = tfidf.transform(
             [user_text]
@@ -245,30 +295,28 @@ if st.button("✨ Analyze"):
         result = prediction[0]
 
 
-        # Success Message
         st.success(
             "Analysis Completed Successfully 🎉"
         )
 
 
-        # 🎈 Balloon Animation
+        # Balloons
         st.balloons()
 
 
-
-        # Mental Health Result
 
         st.subheader(
             "🧠 Mental Health Status"
         )
 
 
-        if result == "High":
+
+        if result=="High":
 
             st.error(result)
 
 
-        elif result == "Medium":
+        elif result=="Medium":
 
             st.warning(result)
 
@@ -283,32 +331,40 @@ if st.button("✨ Analyze"):
         # Song Recommendation
         # -----------------------------
 
-        song_list = {
-
-            "High": [
-                "🎵 Weightless - Marconi Union",
-                "🎵 Fix You - Coldplay",
-                "🎵 Let It Be - The Beatles",
-                "🎵 Someone Like You - Adele"
-            ],
+        songs = {
 
 
-            "Medium": [
-                "🎵 Perfect - Ed Sheeran",
-                "🎵 Photograph - Ed Sheeran",
-                "🎵 Counting Stars - OneRepublic",
-                "🎵 A Thousand Years - Christina Perri"
-            ],
+        "High":[
+
+        "🎵 Weightless - Marconi Union",
+        "🎵 Fix You - Coldplay",
+        "🎵 Let It Be - The Beatles",
+        "🎵 Someone Like You - Adele"
+
+        ],
 
 
-            "Low": [
-                "🎵 Happy - Pharrell Williams",
-                "🎵 Good Life - OneRepublic",
-                "🎵 Don't Stop Me Now - Queen",
-                "🎵 On Top Of The World - Imagine Dragons"
-            ]
+        "Medium":[
+
+        "🎵 Perfect - Ed Sheeran",
+        "🎵 Photograph - Ed Sheeran",
+        "🎵 Counting Stars - OneRepublic",
+        "🎵 A Thousand Years - Christina Perri"
+
+        ],
+
+
+        "Low":[
+
+        "🎵 Happy - Pharrell Williams",
+        "🎵 Good Life - OneRepublic",
+        "🎵 Don't Stop Me Now - Queen",
+        "🎵 On Top Of The World - Imagine Dragons"
+
+        ]
 
         }
+
 
 
         st.subheader(
@@ -316,6 +372,40 @@ if st.button("✨ Analyze"):
         )
 
 
-        for song in song_list[result]:
+        for song in songs[result]:
 
             st.write(song)
+
+
+
+# -----------------------------
+# Dataset
+# -----------------------------
+
+st.divider()
+
+
+st.subheader(
+    "📊 Dataset Preview"
+)
+
+
+st.dataframe(
+    df.head(10),
+    use_container_width=True
+)
+
+
+
+# -----------------------------
+# Footer
+# -----------------------------
+
+st.markdown(
+"""
+<p style='color:black;font-size:14px;'>
+🎼 Powered by NLP + TF-IDF + Machine Learning
+</p>
+""",
+unsafe_allow_html=True
+)
