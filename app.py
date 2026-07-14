@@ -217,11 +217,13 @@ user_text = st.text_area(
 
 
 
+# -----------------------------
+# Analyze Button
+# -----------------------------
+
 if st.button("✨ Analyze"):
 
-
-    if user_text.strip()=="":
-
+    if user_text.strip() == "":
 
         st.warning(
             "Please enter text"
@@ -229,7 +231,6 @@ if st.button("✨ Analyze"):
 
 
     else:
-
 
         vector = tfidf.transform(
             [user_text]
@@ -244,23 +245,30 @@ if st.button("✨ Analyze"):
         result = prediction[0]
 
 
+        # Success Message
         st.success(
             "Analysis Completed Successfully 🎉"
         )
+
+
+        # 🎈 Balloon Animation
         st.balloons()
 
 
+
+        # Mental Health Result
+
         st.subheader(
-            "Mental Health Status"
+            "🧠 Mental Health Status"
         )
 
 
-        if result=="High":
+        if result == "High":
 
             st.error(result)
 
 
-        elif result=="Medium":
+        elif result == "Medium":
 
             st.warning(result)
 
@@ -271,22 +279,43 @@ if st.button("✨ Analyze"):
 
 
 
-st.divider()
+        # -----------------------------
+        # Song Recommendation
+        # -----------------------------
+
+        song_list = {
+
+            "High": [
+                "🎵 Weightless - Marconi Union",
+                "🎵 Fix You - Coldplay",
+                "🎵 Let It Be - The Beatles",
+                "🎵 Someone Like You - Adele"
+            ],
 
 
-st.subheader(
-    "Dataset Preview"
-)
+            "Medium": [
+                "🎵 Perfect - Ed Sheeran",
+                "🎵 Photograph - Ed Sheeran",
+                "🎵 Counting Stars - OneRepublic",
+                "🎵 A Thousand Years - Christina Perri"
+            ],
 
 
-st.dataframe(
-    df.head(10),
-    use_container_width=True
-)
+            "Low": [
+                "🎵 Happy - Pharrell Williams",
+                "🎵 Good Life - OneRepublic",
+                "🎵 Don't Stop Me Now - Queen",
+                "🎵 On Top Of The World - Imagine Dragons"
+            ]
+
+        }
 
 
+        st.subheader(
+            "🎧 Recommended Songs"
+        )
 
-st.markdown(
-"<p style='color:black'>🎼 Powered by NLP + TF-IDF + Machine Learning</p>",
-unsafe_allow_html=True
-) balluns aadd 
+
+        for song in song_list[result]:
+
+            st.write(song)
