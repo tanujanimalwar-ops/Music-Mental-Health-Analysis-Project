@@ -40,19 +40,14 @@ def add_bg(image_url):
         <style>
 
         .stApp {{
-            background-image:
-            url("data:image/png;base64,{encoded}");
-
+            background-image:url("data:image/png;base64,{encoded}");
             background-size:cover;
             background-position:center;
             background-attachment:fixed;
         }}
 
-
         .block-container {{
-            background-color:
-            rgba(255,255,255,0.85);
-
+            background-color:rgba(255,255,255,0.85);
             padding:2rem;
             border-radius:20px;
         }}
@@ -61,9 +56,7 @@ def add_bg(image_url):
         """
 
     except Exception:
-
         return ""
-
 
 
 st.markdown(
@@ -99,21 +92,17 @@ h1,h2,h3,h4,h5,h6,p,label,span,div{
 
 
 .stButton button{
-
     background:white !important;
     color:black !important;
     border:2px solid black;
     border-radius:12px;
     font-weight:bold;
-
 }
 
 
 .stTextArea textarea{
-
     background:white !important;
     color:black !important;
-
 }
 
 </style>
@@ -144,8 +133,7 @@ def load_model():
             open("nlp_model.pkl","rb")
         )
 
-
-        return df,tfidf,model
+        return df, tfidf, model
 
 
     except Exception as e:
@@ -173,20 +161,53 @@ st.sidebar.title(
 
 st.sidebar.markdown(
 """
-## Project
+## 🎵 Project
 
-Music Impact on Mental Health
+**Music Impact on Mental Health**
 
 
-## Techniques Used
+## 🛠 Technologies Used
 
-✔ Data Processing
 
-✔ NLP Cleaning
+### Programming Language
+✔ Python
 
-✔ TF-IDF
 
-✔ Machine Learning
+### Frontend
+✔ Streamlit
+
+
+### Data Processing
+✔ Pandas  
+✔ NumPy
+
+
+### NLP
+✔ Text Cleaning  
+✔ TF-IDF Vectorization
+
+
+### Machine Learning
+✔ Scikit-Learn
+
+
+### Model Storage
+✔ Pickle Files
+
+
+### Deployment
+✔ Streamlit Cloud
+
+
+## Features
+
+✔ Mental Health Prediction
+
+✔ Song Recommendation
+
+✔ Dataset Preview
+
+✔ Interactive UI
 
 """
 )
@@ -194,7 +215,7 @@ Music Impact on Mental Health
 
 
 # -----------------------------
-# Main Page
+# Main UI
 # -----------------------------
 
 st.title(
@@ -213,114 +234,4 @@ st.divider()
 user_text = st.text_area(
     "Enter your feeling about music",
     placeholder="Example: Music helps me relax and reduce stress"
-)
-
-
-
-if st.button("✨ Analyze"):
-
-
-    if user_text.strip()=="":
-
-
-        st.warning(
-            "Please enter text"
-        )
-
-
-    else:
-
-
-        vector = tfidf.transform(
-            [user_text]
-        )
-
-
-        prediction = model.predict(
-            vector
-        )
-
-
-        result = prediction[0]
-
-
-        st.success(
-            "Analysis Completed Successfully 🎉"
-        )
-        st.balloons()
-
-
-        st.subheader(
-            "Mental Health Status"
-        )
-
-
-        if result=="High":
-
-            st.error(result)
-
-
-        elif result=="Medium":
-
-            st.warning(result)
-
-
-        else:
-
-            st.success(result)
-
-
-
-st.divider()
-
-
-st.subheader(
-    "Dataset Preview"
-)
-
-
-st.dataframe(
-    df.head(10),
-    use_container_width=True
-)
-# -----------------------------
-# Song Recommendation
-# -----------------------------
-
-song_list = {
-    "High": [
-        "🎵 Weightless - Marconi Union",
-        "🎵 Fix You - Coldplay",
-        "🎵 Let It Be - The Beatles",
-        "🎵 Someone Like You - Adele"
-    ],
-
-    "Medium": [
-        "🎵 Perfect - Ed Sheeran",
-        "🎵 Photograph - Ed Sheeran",
-        "🎵 Counting Stars - OneRepublic",
-        "🎵 A Thousand Years - Christina Perri"
-    ],
-
-    "Low": [
-        "🎵 Happy - Pharrell Williams",
-        "🎵 Good Life - OneRepublic",
-        "🎵 Don't Stop Me Now - Queen",
-        "🎵 On Top Of The World - Imagine Dragons"
-    ]
-}
-
-
-st.subheader("🎧 Recommended Songs")
-
-
-if result in song_list:
-
-    for song in song_list[result]:
-        st.write(song)
-
-
-st.markdown(
-"<p style='color:black'>🎼 Powered by NLP + TF-IDF + Machine Learning</p>",
-unsafe_allow_html=True
 )
