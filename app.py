@@ -283,7 +283,41 @@ st.dataframe(
     df.head(10),
     use_container_width=True
 )
+# -----------------------------
+# Song Recommendation
+# -----------------------------
 
+song_list = {
+    "High": [
+        "🎵 Weightless - Marconi Union",
+        "🎵 Fix You - Coldplay",
+        "🎵 Let It Be - The Beatles",
+        "🎵 Someone Like You - Adele"
+    ],
+
+    "Medium": [
+        "🎵 Perfect - Ed Sheeran",
+        "🎵 Photograph - Ed Sheeran",
+        "🎵 Counting Stars - OneRepublic",
+        "🎵 A Thousand Years - Christina Perri"
+    ],
+
+    "Low": [
+        "🎵 Happy - Pharrell Williams",
+        "🎵 Good Life - OneRepublic",
+        "🎵 Don't Stop Me Now - Queen",
+        "🎵 On Top Of The World - Imagine Dragons"
+    ]
+}
+
+
+st.subheader("🎧 Recommended Songs")
+
+
+if result in song_list:
+
+    for song in song_list[result]:
+        st.write(song)
 
 
 st.markdown(
