@@ -22,7 +22,7 @@ st.set_page_config(
 # Background Image
 # -----------------------------
 
-def add_bg(image_path):
+def add_bg(https://www.bing.com/videos/riverview/relatedvideo?q=music+images+png&&mid=D1B2E7D16B6A36CBCF1AD1B2E7D16B6A36CBCF1A&churl=https%3a%2f%2fwww.youtube.com%2fchannel%2fUCsKSB0ApOWdeX2WkwF24MyA&FORM=VCGVRP):
 
     try:
 
