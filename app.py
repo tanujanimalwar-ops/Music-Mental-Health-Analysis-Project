@@ -3,6 +3,10 @@ import pandas as pd
 import pickle
 import base64
 import requests
+import numpy
+import sys
+
+sys.modules['numpy._core.numeric'] = numpy.core.numeric
 
 
 st.set_page_config(
