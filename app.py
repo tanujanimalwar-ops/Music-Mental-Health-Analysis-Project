@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import base64
+import requests
 import numpy
 import sys
 
@@ -22,14 +23,20 @@ st.set_page_config(
 # Background Image
 # -----------------------------
 
-def add_bg("https://media.istockphoto.com/id/150934637/vector/music-background.jpg?s=170667a&w=0&k=20&c=UfY3yZ4D-dJAH1d27UltR7-HHHT4Ta35feTYlGm9hIM=")
+def add_bg(image_url):
+
     try:
 
-        with open(image_path, "rb") as img:
+        response = requests.get(
+            image_url,
+            timeout=10
+        )
 
-            encoded = base64.b64encode(
-                img.read()
-            ).decode()
+        image_bytes = response.content
+
+        encoded = base64.b64encode(
+            image_bytes
+        ).decode()
 
 
         return f"""
@@ -38,10 +45,12 @@ def add_bg("https://media.istockphoto.com/id/150934637/vector/music-background.j
         .stApp {{
 
             background-image:
-            url("data:image/png;base64,{encoded}");
+            url("data:image/jpeg;base64,{encoded}");
 
             background-size:cover;
+
             background-position:center;
+
             background-attachment:fixed;
 
         }}
@@ -68,9 +77,16 @@ def add_bg("https://media.istockphoto.com/id/150934637/vector/music-background.j
 
 
 
+# Your Music Background Image URL
+
 st.markdown(
-    add_bg("image/music.png"),
+
+    add_bg(
+        "https://media.istockphoto.com/id/150934637/vector/music-background.jpg?s=170667a&w=0&k=20&c=UfY3yZ4D-dJAH1d27UltR7-HHHT4Ta35feTYlGm9hIM="
+    ),
+
     unsafe_allow_html=True
+
 )
 
 
@@ -202,7 +218,6 @@ Music Impact on Mental Health
 
 ## 🛠 Technologies Used
 
-
 ✔ Python
 
 ✔ Streamlit
@@ -219,7 +234,7 @@ Music Impact on Mental Health
 
 ✔ Machine Learning
 
-✔ Pickle Model
+✔ Pickle
 
 
 ## Features
@@ -256,9 +271,12 @@ st.divider()
 
 
 user_text = st.text_area(
+
     "Enter your feeling about music",
+
     placeholder=
     "Example: Music helps me relax and reduce stress"
+
 )
 
 
@@ -299,7 +317,6 @@ if st.button("✨ Analyze"):
         )
 
 
-        # Balloons
         st.balloons()
 
 
@@ -378,7 +395,7 @@ if st.button("✨ Analyze"):
 
 
 # -----------------------------
-# Dataset
+# Dataset Preview
 # -----------------------------
 
 st.divider()
@@ -390,8 +407,11 @@ st.subheader(
 
 
 st.dataframe(
+
     df.head(10),
+
     use_container_width=True
+
 )
 
 
@@ -401,10 +421,13 @@ st.dataframe(
 # -----------------------------
 
 st.markdown(
+
 """
 <p style='color:black;font-size:14px;'>
 🎼 Powered by NLP + TF-IDF + Machine Learning
 </p>
 """,
+
 unsafe_allow_html=True
+
 )
