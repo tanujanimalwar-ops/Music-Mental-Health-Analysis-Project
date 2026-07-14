@@ -247,6 +247,7 @@ if st.button("✨ Analyze"):
         st.success(
             "Analysis Completed Successfully 🎉"
         )
+        st.balloons()
 
 
         st.subheader(
