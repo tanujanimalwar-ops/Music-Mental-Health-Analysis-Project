@@ -14,21 +14,21 @@ st.set_page_config(
 def add_bg(image_url):
 
     try:
+@st.cache_resource
+def load_model():
 
-        response = requests.get(
-            image_url,
-            timeout=10
-        )
+    try:
+        df = pickle.load(open("music_data.pkl", "rb"))
+        tfidf = pickle.load(open("tfidf.pkl", "rb"))
+        model = pickle.load(open("nlp_model.pkl", "rb"))
 
-        image_bytes = response.content
+        return df, tfidf, model
 
-        encoded = base64.b64encode(
-            image_bytes
-        ).decode()
+    except Exception as e:
+        st.error(f"Model Loading Error: {e}")
+        st.stop()
 
-
-        return f"""
-
+    
         <style>
 
         .stApp {{
